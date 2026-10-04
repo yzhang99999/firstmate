@@ -20,11 +20,15 @@ jq -e '
   (.harnesses | type == "object") and
   ([.operations[][] | select(type != "array")] | length == 0) and
   ([.operations[][][] | select(type != "string")] | length == 0) and
-  ([.harnesses[] | select(type != "string")] | length == 0)
-' "$ROUTING_JSON" >/dev/null || fail "harness adapter routing artifact is not a normalized operation and harness map"
+  ([.harnesses[] | select(type != "string")] | length == 0) and
+  (.situations | type == "object") and
+  ([.situations[] | select(type != "object")] | length == 0) and
+  ([.situations[][] | select(type != "string")] | length == 0) and
+  (.harnesses as $hs | [.situations | keys[] as $h | select($hs | has($h) | not)] | length == 0)
+' "$ROUTING_JSON" >/dev/null || fail "harness adapter routing artifact is not a normalized operation, harness, and situation map"
 
-jq -r '.operations[][][], .harnesses[]' "$ROUTING_JSON" | sort -u | while IFS= read -r path; do
+jq -r '.operations[][][], .harnesses[], .situations[][]' "$ROUTING_JSON" | sort -u | while IFS= read -r path; do
   [ -r "$ROOT/.agents/skills/harness-adapters/$path" ] \
     || fail "harness adapter routing target is unreadable: $path"
 done
-pass "harness adapter routing artifact is normalized and every target is readable"
+pass "harness adapter routing artifact, including situational references, is normalized and every target is readable"

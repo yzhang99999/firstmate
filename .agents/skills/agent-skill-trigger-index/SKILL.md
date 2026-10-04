@@ -14,7 +14,7 @@ These skills are not captain-invocable; load them only at their precise triggers
 - `diagnostic-reasoning` - load before scoping a reported bug and before acting on a diagnostic report.
 - `ask-user-authority` - load before deciding any ask-user finding.
 - `quota-array-dispatch` - load before choosing among a matched crew-dispatch profile array from current quota-axi default TOON.
-- `harness-adapters` - load before spawning or recovering a crewmate or secondmate, handling a trust dialog, sending a harness-specific skill invocation, interrupting or exiting an agent, resuming an exited agent, or verifying a new harness adapter.
+- `harness-adapters` - load once per session before the first spawn or recovery of a crewmate or secondmate, trust-dialog handling, harness-specific skill invocation, interrupt or exit of an agent, resume of an exited agent, or verification of a new harness adapter; reuse it while its content stays in context.
 - `firstmate-orca` - load before switching to Orca, spawning or supervising Orca-backed work, smoke-testing Orca backend behavior, debugging Orca task state, or reconciling Orca-backed task metadata.
 - `project-management` - load before adding, creating, removing, or initializing a project.
   Cloning or registering a project is add intake and uses the same trigger.

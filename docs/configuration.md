@@ -736,7 +736,7 @@ On Zellij, cmux, and Orca a typed-plane Cursor send (a harness-native invocation
 muse is verified for crewmate and scout launches ONLY, and `fm-spawn.sh` refuses it for a secondmate, because muse ships no usable hook surface for a primary session's turn-end supervision; [`docs/verification/muse.md`](verification/muse.md) owns that evidence.
 muse also needs a worker-reachable credential before spawning, and the portable fleet path is the `<config>/muse/auth.json` credential stored by `muse login`, because a caller-only `META_API_KEY` does not cross a long-lived backend daemon.
 
-gemini is likewise refused for secondmates because it has no primary supervision protocol; [its adapter reference](../.agents/skills/harness-adapters/references/harness/gemini.md) owns the credential precondition, canonical-launch wiring, and raw-launch limitations.
+gemini is likewise refused for secondmates because it has no primary supervision protocol; [its adapter reference](../.agents/skills/harness-adapters/references/harness/gemini.md) owns the credential precondition, canonical-launch wiring, and raw-launch limitations, and [its dialog reference](../.agents/skills/harness-adapters/references/harness/gemini-dialogs.md) owns the credential dialogs.
 rovo is likewise verified for crewmate and scout launches ONLY, refused for a secondmate for the same reason - no turn-end hook and no primary supervision protocol; [`docs/verification/rovo.md`](verification/rovo.md) owns that evidence, including the OAuth token's silent background refresh from a stored refresh token and both tmux and herdr pane liveness (herdr placement is verified live, with a Herdr-side agent-detection gap left open for recovery classification).
 
 agy is likewise verified for crewmate and scout launches ONLY, refused for a secondmate for the same reason - no hook surface and no primary supervision protocol; [`docs/verification/agy.md`](verification/agy.md) owns that evidence, including the spawn-time worktree trust pre-registration through `bin/fm-agy-trust.sh` and Herdr's native agy pane recognition.
@@ -839,7 +839,7 @@ The diagnostic names the accepted values; Firstmate never falls back to a permis
 `bin/fm-spawn.sh` reads the file on every spawn and relaunch, so a change takes effect at the next launch without a restart.
 The file is a captain-wide safety preference, so it is inherited into secondmate homes under the [`secondmate-provisioning`](../.agents/skills/secondmate-provisioning/SKILL.md) inherited-local-material contract; a secondmate's own Claude crewmates then launch on the same posture.
 
-The [Claude adapter reference](../.agents/skills/harness-adapters/references/harness/claude.md) records the permission-mode observations and the distinct startup dialogs.
+The [Claude dialog reference](../.agents/skills/harness-adapters/references/harness/claude-dialogs.md) records the permission-mode observations and the distinct startup dialogs.
 
 ## Worker account pin (config/claude-account, config/pi-account)
 

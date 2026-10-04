@@ -920,9 +920,10 @@ fm_busy_agy_tail_busy() {
 # re-verified live on Claude Code 2.1.278, docs/verification/runtime-backends.md
 # "Launch-prompt backstop signatures") and its separate external-CLAUDE.md-
 # imports dialog ("Allow external CLAUDE.md file imports?", verified by
-# disassembly, .agents/skills/harness-adapters/references/harness/claude.md
-# "Hook trust" sibling section). fm-claude-trust.sh pre-registers both before
-# launch; this is the backstop for when that registration did not take effect.
+# disassembly, .agents/skills/harness-adapters/references/harness/
+# claude-dialogs.md "Workspace trust"). fm-claude-trust.sh pre-registers
+# both before launch; this is the backstop for when that registration did not
+# take effect.
 # Each dialog's own question text is paired with one of its own rendered
 # option/footer lines, both required together: the question text alone is
 # plausible self-referential prose a firstmate-repo worker could easily render
@@ -974,10 +975,10 @@ fm_busy_pi_launch_prompt_tail() {
 # full-capture match necessary: its heading renders more than 12 non-blank-
 # looking lines above the bordered box's bottom border. The API-key entry
 # screen is carried over from .agents/skills/harness-adapters/references/
-# harness/gemini.md "Trust, and why the two documented options are not
-# equivalent" rather than this guard's own live capture, and stays a single
-# marker: it is reached only after actively selecting that auth method, so
-# self-referential prose is a materially smaller risk there.
+# harness/gemini-dialogs.md "Credential dialogs" rather than this guard's
+# own live capture, and stays a single marker: it is reached only after
+# actively selecting that auth method, so self-referential prose is a
+# materially smaller risk there.
 fm_busy_gemini_launch_prompt_tail() {
   local buf
   buf=$(cat)

@@ -2,7 +2,8 @@
 name: harness-adapters
 description: >-
   Agent-only reference for firstmate harness operations.
-  Use before spawning or recovering a crewmate or secondmate, handling a trust dialog, sending a harness-specific skill invocation, interrupting or exiting an agent, resuming an exited agent, or verifying a new harness adapter.
+  Load once per session before the first spawn or recovery of a crewmate or secondmate, trust-dialog handling, harness-specific skill invocation, interrupt or exit of an agent, resume of an exited agent, or verification of a new harness adapter.
+  Reuse it while its content stays in context, per its session-reuse rule.
   Contains verified facts for claude, codex, opencode, pi, pi-signed, grok, kimi, cursor, gemini, muse, rovo, omp, agy, and devin.
 user-invocable: false
 metadata:
@@ -12,9 +13,15 @@ metadata:
 # harness-adapters
 
 This is the one skill, trigger, and routing owner for harness-specific Firstmate operations.
-Load this router first, then exactly the common reference and one harness reference selected below.
+Load this router first, then exactly the common references, the one harness reference, and any situational reference selected below.
 When an action spans rows, load the union once rather than every reference.
 Files under `references/` are resources of this skill, not additional catalogued skills.
+
+## Session reuse
+
+Load this router once per session and reuse it while its content remains in context; a later operation reads only the selected references not yet in context.
+Reload the router or a reference once its content has left context, for example after compaction.
+Reuse never relaxes Non-negotiable safety, including reading the exact recorded harness for each recovery or control action.
 
 ## Path contract
 
@@ -54,6 +61,8 @@ A new adapter's verified marker and command name must land in `../../../bin/fm-h
 Every emitted plan appends the selected or recorded harness reference after the named common references.
 The `harness-adapter-routing-v1` object is the machine-readable and human-visible selection contract: choose the operation, choose the scenario within it, then append the selected harness reference.
 `default` is the normal scenario when no narrower scenario applies.
+`situations` appends a harness's on-demand reference only when its situation occurs: `dialog` when a startup, trust, sign-in, or credential dialog is on screen or a spawn reports failed trust registration.
+`troubleshoot` applies when a worker misbehaves beyond its operating facts, such as repeated steering retries, an interrupt that seems not to land, or an authentication warning, or when its adapter is being changed.
 Kimi establishes its unsupported primary boundary in its selected harness reference; Muse and Gemini follow Non-negotiable safety above.
 A new tool remains undispatchable until the `verify` plan, its harness entry, every named owner, and the live checks land.
 
@@ -97,6 +106,11 @@ A new tool remains undispatchable until the `verify` plan, its harness entry, ev
     "omp": "references/harness/omp.md",
     "agy": "references/harness/agy.md",
     "devin": "references/harness/devin.md"
+  },
+  "situations": {
+    "claude": {"dialog": "references/harness/claude-dialogs.md"},
+    "gemini": {"dialog": "references/harness/gemini-dialogs.md"},
+    "rovo": {"troubleshoot": "references/harness/rovo-troubleshooting.md"}
   }
 }
 ```
